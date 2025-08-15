@@ -18,6 +18,7 @@
     .nav a.active { background: #ffca28; }
     .content { flex: 1; padding: 20px; }
     .h1 { font-family:'Bangers', cursive; font-size: 42px; margin-top:0; }
+    .intro-img { max-width: 100%; height: auto; border: 4px solid #000; border-radius: 12px; display: block; margin-top: 10px; }
     form { margin-top: 20px; background:#fff; border:4px solid #000; border-radius: 12px; padding: 20px; box-shadow: 6px 6px 0 #000; max-width: 700px; }
     input, select, textarea { width: 100%; padding: 10px; border:3px solid #000; border-radius: 8px; margin-bottom: 12px; font-family:'Comic Neue', cursive; font-size: 16px; }
     textarea { min-height: 200px; resize: vertical; }
@@ -34,79 +35,16 @@
         <div class="title">Ravenscroft</div>
       </div>
       <nav class="nav">
-        <a href="index.html">Home</a>
+        <a href="index.html" class="active">Home</a>
         <a href="superpower.html">Design Superpower</a>
         <a href="kryptonite.html">Design Kryptonite</a>
       </nav>
     </aside>
     <main class="content">
-      <h1 class="h1" id="pageTitle"></h1>
+      <h1 class="h1">Ravenscroft Design Process Reflection</h1>
+      <p>Here’s the Ravenscroft Design Process — use it as a guide for your Superpower and Kryptonite reflections.</p>
+      <img src="process.png" alt="Ravenscroft Design Process" class="intro-img">
     </main>
   </div>
-  <script>
-    const path = location.pathname;
-    const content = document.querySelector('.content');
-    if (path.endsWith('index.html') || path.endsWith('/')) {
-      document.getElementById('pageTitle').innerText = 'Ravenscroft Design Process Reflection';
-      const intro = document.createElement('div');
-      intro.innerHTML = '<p>Here’s the Ravenscroft Design Process — use it as a guide for your Superpower and Kryptonite reflections.</p><img src="process.png" style="max-width:100%;height:auto;border:4px solid #000;border-radius:12px;">';
-      content.appendChild(intro);
-    } else {
-      if (path.endsWith('superpower.html')) {
-        document.getElementById('pageTitle').innerText = 'Design Superpower';
-        initReplies('superpowerReplies');
-      }
-      if (path.endsWith('kryptonite.html')) {
-        document.getElementById('pageTitle').innerText = 'Design Kryptonite';
-        initReplies('kryptoniteReplies');
-      }
-    }
-    function initReplies(key) {
-      const form = document.createElement('form');
-      form.innerHTML = `
-        <label>Name (optional)<input type="text" name="name"></label>
-        <label>Design process (optional)
-          <select name="process">
-            <option value="">— Select one —</option>
-            <option>Empathize</option><option>Define</option><option>Ideate</option>
-            <option>Prototype</option><option>Test</option><option>Research</option>
-            <option>Iteration</option><option>Other</option>
-          </select>
-        </label>
-        <label>Your reply<textarea name="text" maxlength="500" required></textarea></label>
-        <button type="submit">Submit</button>
-        <button type="button" id="clearBtn" style="background:#f44336;">Clear All</button>
-      `;
-      const listContainer = document.createElement('div');
-      listContainer.id = 'repliesList';
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        const replies = JSON.parse(localStorage.getItem(key) || '[]');
-        const name = form.name.value.trim();
-        const process = form.process.value.trim();
-        const text = form.text.value.trim();
-        if (!text) return;
-        replies.push({ name, process, text });
-        localStorage.setItem(key, JSON.stringify(replies));
-        form.reset();
-        renderReplies(replies);
-      });
-      form.querySelector('#clearBtn').addEventListener('click', () => {
-        localStorage.removeItem(key);
-        renderReplies([]);
-      });
-      function renderReplies(replies) {
-        listContainer.innerHTML = '';
-        replies.forEach(r => {
-          const card = document.createElement('div');
-          card.innerHTML = `<strong>${r.name || 'Anonymous'}</strong> (${r.process || 'No process'})<br>${r.text}`;
-          listContainer.appendChild(card);
-        });
-      }
-      renderReplies(JSON.parse(localStorage.getItem(key) || '[]'));
-      content.appendChild(form);
-      content.appendChild(listContainer);
-    }
-  </script>
 </body>
 </html>
