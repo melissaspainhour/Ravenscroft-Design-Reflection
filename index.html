@@ -1,3 +1,10 @@
+Yes — right now, the code references `process.png` as a separate file, so that image needs to exist in the same folder as your HTML file. 
+
+If you want the site to work without having to keep the image file in your repository, you can embed the image directly in the HTML using a Base64 data URI. That way, it’s self-contained.
+
+Here’s the updated code with your image embedded inline:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +44,11 @@
     <main class="content">
       <h1 class="h1">Ravenscroft Design Process Reflection</h1>
       <p>Here’s the Ravenscroft Design Process — use it as a guide for your Superpower and Kryptonite reflections.</p>
-      <img src="process.png" alt="Ravenscroft Design Process" class="intro-img">
+      <img src="data:image/png;base64,PUT-YOUR-BASE64-CODE-HERE" alt="Ravenscroft Design Process" class="intro-img">
     </main>
   </div>
 </body>
 </html>
+```
+
+You would replace `PUT-YOUR-BASE64-CODE-HERE` with the Base64 string of your `process.png`. This way, no external image file is needed.
